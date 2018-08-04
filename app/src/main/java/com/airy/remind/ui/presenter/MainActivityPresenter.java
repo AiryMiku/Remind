@@ -65,7 +65,7 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setTitle("想做些什么呢？");
-        builder.setMessage("输入吧");
+//        builder.setMessage("输入吧");
         builder.setView(editText);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -83,8 +83,9 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
                                 adapter.notifyItemRemoved(dataList.size()-1);
                             }
                         }).show();
-                        dataList = remindDao.loadAll();
-                        adapter.notifyItemInserted(dataList.size()-1);
+//                        dataList = remindDao.loadAll();
+//                        adapter.notifyItemInserted(dataList.size()-1);
+                        displayAndLoadWithAnimation();
                     }else{
                         Snackbar.make(mCoord,"添加Remind事件失败",Snackbar.LENGTH_SHORT).show();
                     }
