@@ -8,7 +8,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
+    <include
+        android:id="@+id/empty_view"
+        layout="@layout/item_empty" />
+
+    <com.airy.remind.myview.EmptyRecycleView
         android:id="@+id/remind_task_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,8 @@
 package com.airy.remind.ui.view;
 
-import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.airy.remind.myview.EmptyRecycleView;
 
 /**
  * Created by Airy on 2018/7/16
@@ -10,6 +12,6 @@ import android.support.v7.widget.RecyclerView;
 
 public interface IMainView {
 
-    RecyclerView getRecyclerView();
-
+    EmptyRecycleView getRecyclerView();
+    View getEmptyView();
 }

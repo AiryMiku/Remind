@@ -3,9 +3,9 @@ package com.airy.remind.ui.adapter;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.airy.remind.MyApp;
 import com.airy.remind.R;
@@ -62,8 +63,23 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = holder.getLayoutPosition();
-                removeData(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setIcon(R.mipmap.ic_launcher);
+                builder.setTitle("做完这件事了吗？");
+                builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int position = holder.getLayoutPosition();
+                        removeData(position);
+                        Toast.makeText(mContext,"已删除ε=ε=ε=(~￣▽￣)~",Toast.LENGTH_SHORT).show();
+                    }
+                }).setNegativeButton("还没呢(。・∀・)ノ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.create().show();
             }
         });
 
@@ -92,11 +108,12 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
         Remind remind = mList.get(position);
         MyApp.getDaoSession().getRemindDao().delete(remind);
         mList.remove(position);
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.activity_main, null);
-        CoordinatorLayout layout = view.findViewById(R.id.main_content);
-        Snackbar.make(layout,"已删除",Snackbar.LENGTH_SHORT).show();
-        notifyItemRemoved(position);//注意这里
+        notifyItemRemoved(position);
+    }
+
+    public void InsertData(int position,Remind remind){
+        mList.add(position,remind);
+        notifyItemInserted(position);
     }
 
     private void runEnterAnimation(View view, int position) {

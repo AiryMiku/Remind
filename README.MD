@@ -14,3 +14,5 @@
 ## ToDo
  * 编写后端？网络缓存
  * 完善已知问题
+## update
+ * 2018.8.5 16:36  重写RecycleView，添加EmptyView，改变删除交互

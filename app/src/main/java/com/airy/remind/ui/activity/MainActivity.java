@@ -3,12 +3,13 @@ package com.airy.remind.ui.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.airy.remind.R;
 import com.airy.remind.base.BaseActivity;
+import com.airy.remind.myview.EmptyRecycleView;
 import com.airy.remind.ui.presenter.MainActivityPresenter;
 import com.airy.remind.ui.view.IMainView;
 
@@ -23,7 +24,10 @@ public class MainActivity extends BaseActivity<IMainView,MainActivityPresenter> 
     CoordinatorLayout mCoord;
 
     @BindView(R.id.remind_task_list)
-    RecyclerView recyclerView;
+    EmptyRecycleView recyclerView;
+
+    @BindView(R.id.empty_view)
+    View emptyView;
 
     @OnClick(R.id.add_remind_float_button)
     public void OnClick(){
@@ -73,7 +77,12 @@ public class MainActivity extends BaseActivity<IMainView,MainActivityPresenter> 
     }
 
     @Override
-    public RecyclerView getRecyclerView() {
+    public EmptyRecycleView getRecyclerView() {
         return recyclerView;
+    }
+
+    @Override
+    public View getEmptyView() {
+        return emptyView;
     }
 }

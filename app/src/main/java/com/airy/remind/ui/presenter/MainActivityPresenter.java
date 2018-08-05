@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -19,9 +18,11 @@ import com.airy.remind.R;
 import com.airy.remind.base.BasePresenter;
 import com.airy.remind.bean.Remind;
 import com.airy.remind.bean.RemindDao;
+import com.airy.remind.myview.EmptyRecycleView;
 import com.airy.remind.ui.adapter.RemindListAdapter;
 import com.airy.remind.ui.view.IMainView;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,10 +35,11 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
 
     private Activity activity;
     private RemindDao remindDao;
-    private RecyclerView recyclerView;
+    private EmptyRecycleView recyclerView;
     private RemindListAdapter adapter;
     private List<Remind> dataList;
     private IMainView mainView;
+    private View emptyView;
 
     public MainActivityPresenter(Activity activity){
         this.activity = activity;
@@ -54,6 +56,7 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
 
     public void init(){
         mainView = getMainView();
+        emptyView = mainView.getEmptyView();
         if(mainView != null){
             setupRecycleView();
             displayAndLoadWithAnimation();
@@ -72,20 +75,19 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
             public void onClick(DialogInterface dialog, int which) {
                 String input = editText.getText().toString();
                 try{
-                    Remind remind = new Remind();
+                    final Remind remind = new Remind();
                     remind.setName(input);
                     final long key = remindDao.insert(remind);
                     if(key > 0){
                         Snackbar.make(mCoord,"成功添加Remind事件",Snackbar.LENGTH_LONG).setAction("撤回", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                remindDao.deleteByKey(key);
-                                adapter.notifyItemRemoved(dataList.size()-1);
+                                adapter.removeData(0);
                             }
                         }).show();
-//                        dataList = remindDao.loadAll();
-//                        adapter.notifyItemInserted(dataList.size()-1);
-                        displayAndLoadWithAnimation();
+                        adapter.InsertData(0,remind);
+                        recyclerView.smoothScrollToPosition(0);
+//                        displayAndLoadWithAnimation();
                     }else{
                         Snackbar.make(mCoord,"添加Remind事件失败",Snackbar.LENGTH_SHORT).show();
                     }
@@ -105,6 +107,7 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
     private void setupRecycleView(){
         dataList = remindDao.loadAll(); // getData
         recyclerView = mainView.getRecyclerView();
+        recyclerView.setEmptyView(emptyView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.VERTICAL));
@@ -120,11 +123,14 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
     }
 
     private void displayAndLoadWithAnimation(){
-        if (dataList.isEmpty())
-            dataList = remindDao.loadAll(); // getData
+        if (dataList.isEmpty()){
+            dataList =  remindDao.loadAll(); // getData
+            Collections.reverse(dataList);
+        }
         else{
             dataList.clear();
             dataList.addAll(remindDao.loadAll());
+            Collections.reverse(dataList);
         }
         recyclerView = mainView.getRecyclerView();
         final Context recyclerViewContext = recyclerView.getContext();
