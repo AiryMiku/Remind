@@ -68,17 +68,14 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public void onCreate() {
             Log.d(TAG,"onCreate");
-//            mList.add("00000000000000000000000000000000000000000000000000000000");
-//            for (int i = 1; i <= 10; i++) {
-//                mList.add("item" + i);
-//            }
             mList.clear();
             mList.addAll(remindDao.loadAll());
         }
 
         @Override
         public void onDataSetChanged() {
-
+            mList.clear();
+            mList.addAll(remindDao.loadAll());
         }
 
         @Override
@@ -94,7 +91,7 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int i) {
             Log.d(TAG,"init data is "+i+" :"+mList.get(i).toString());
-            if(i<0 || i>= mList.size())
+            if(i >= mList.size())
                 return null;
             Remind content = mList.get(i);
 //            String content = mList.get(i);
