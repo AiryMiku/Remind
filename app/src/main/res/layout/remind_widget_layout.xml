@@ -17,6 +17,8 @@
 
     <ListView
         android:id="@+id/widget_remind_task_list"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

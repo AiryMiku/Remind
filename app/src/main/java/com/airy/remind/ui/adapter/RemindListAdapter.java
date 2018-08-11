@@ -88,8 +88,10 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
             public void onClick(View view) {
                 if (item.getIsFinished()){
                     item.setIsFinished(false);
+                    MyApp.getDaoSession().getRemindDao().update(item);
                 } else {
                     item.setIsFinished(true);
+                    MyApp.getDaoSession().getRemindDao().update(item);
                 }
             }
         });

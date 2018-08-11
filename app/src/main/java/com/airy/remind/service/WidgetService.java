@@ -13,6 +13,7 @@ import com.airy.remind.bean.Remind;
 import com.airy.remind.bean.RemindDao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class WidgetService extends RemoteViewsService {
@@ -70,12 +71,14 @@ public class WidgetService extends RemoteViewsService {
             Log.d(TAG,"onCreate");
             mList.clear();
             mList.addAll(remindDao.loadAll());
+            Collections.reverse(mList);
         }
 
         @Override
         public void onDataSetChanged() {
             mList.clear();
             mList.addAll(remindDao.loadAll());
+            Collections.reverse(mList);
         }
 
         @Override
@@ -90,22 +93,15 @@ public class WidgetService extends RemoteViewsService {
 
         @Override
         public RemoteViews getViewAt(int i) {
-            Log.d(TAG,"init data is "+i+" :"+mList.get(i).toString());
             if(i >= mList.size())
                 return null;
             Remind content = mList.get(i);
-//            String content = mList.get(i);
-
             final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.remind_widget_list_item);
             rv.setTextViewText(R.id.widget_list_item_tv, content.getName());
-//            rv.setTextViewText(R.id.widget_list_item_tv, content);
-
             // 填充Intent，填充在AppWdigetProvider中创建的PendingIntent
             Intent intent = new Intent();
             // 传入点击行的数据
             intent.putExtra("name", content.getName());
-//            intent.putExtra("name", content);
-
             rv.setOnClickFillInIntent(R.id.widget_list_item_tv, intent);
             return rv;
         }
