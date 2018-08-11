@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
+    android:background="@drawable/app_widget_background_corner"
     android:padding="@dimen/widget_margin"
     android:orientation="vertical">
 
@@ -9,7 +10,10 @@
         android:id="@+id/widget_list_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="refresh"/>
+        android:textColor="@drawable/btn_text_color"
+        android:background="@drawable/btn_background"
+        android:layout_margin="3dp"
+        android:text="刷新"/>
 
     <ListView
         android:id="@+id/widget_remind_task_list"

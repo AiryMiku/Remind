@@ -38,6 +38,7 @@ public class HomeScreenWidget extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
                 0,clickIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_remind_task_list,pendingIntent);
+
         final Intent refreshIntent = new Intent(context,HomeScreenWidget.class);
         refreshIntent.setAction("refresh");
         final PendingIntent refreshPendingIntent = PendingIntent.getBroadcast(
