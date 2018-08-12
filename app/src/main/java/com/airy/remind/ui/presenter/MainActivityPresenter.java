@@ -133,12 +133,12 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
             Collections.reverse(dataList);
         }
         recyclerView = mainView.getRecyclerView();
-        final Context recyclerViewContext = recyclerView.getContext();
-        final LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(recyclerViewContext,R.anim.layout_animation_fall_down);
-        recyclerView.setLayoutAnimation(controller);
+//        final Context recyclerViewContext = recyclerView.getContext();
+//        final LayoutAnimationController controller =
+//                AnimationUtils.loadLayoutAnimation(recyclerViewContext,R.anim.layout_animation_fall_down);
+//        recyclerView.setLayoutAnimation(controller);
         adapter.notifyDataSetChanged();
-        recyclerView.startLayoutAnimation();
+//        recyclerView.scheduleLayoutAnimation();
 //        Toast.makeText(activity,"正在载入...",Toast.LENGTH_SHORT).show();
     }
 
