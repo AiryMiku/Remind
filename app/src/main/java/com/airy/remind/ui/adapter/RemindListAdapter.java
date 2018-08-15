@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.airy.remind.MyApp;
 import com.airy.remind.R;
 import com.airy.remind.bean.Remind;
+import com.airy.remind.widget.HomeScreenWidget;
 
 import java.util.List;
 
@@ -72,6 +74,11 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
                         int position = holder.getLayoutPosition();
                         removeData(position);
                         Toast.makeText(mContext,"已删除ε=ε=ε=(~￣▽￣)~",Toast.LENGTH_SHORT).show();
+
+                        //notify widget update
+                        Intent intent = new Intent(mContext, HomeScreenWidget.class);
+                        intent.setAction("refresh");
+                        mContext.sendBroadcast(intent);
                     }
                 }).setNegativeButton("还没呢(。・∀・)ノ", new DialogInterface.OnClickListener() {
                     @Override
@@ -152,7 +159,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Remind item);
+        void onItemClick();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,16 +1,14 @@
 package com.airy.remind.ui.presenter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
 import com.airy.remind.MyApp;
@@ -21,6 +19,7 @@ import com.airy.remind.bean.RemindDao;
 import com.airy.remind.myview.EmptyRecycleView;
 import com.airy.remind.ui.adapter.RemindListAdapter;
 import com.airy.remind.ui.view.IMainView;
+import com.airy.remind.widget.HomeScreenWidget;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,12 +62,11 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         }
     }
 
-    public void snackBarAction(final CoordinatorLayout mCoord){
+    public void floatButtonAction(final CoordinatorLayout mCoord){
         final EditText editText = new EditText(activity);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setIcon(R.mipmap.ic_launcher);
         builder.setTitle("想做些什么呢？");
-//        builder.setMessage("输入吧");
         builder.setView(editText);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
@@ -83,11 +81,12 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
                             @Override
                             public void onClick(View view) {
                                 adapter.removeData(0);
+                                notifyWidgetUpdate(); // 通知更新widget
                             }
                         }).show();
                         adapter.InsertData(0,remind);
-                        recyclerView.smoothScrollToPosition(0);
-//                        displayAndLoadWithAnimation();
+                        recyclerView.smoothScrollToPosition(0); // 滑动到新增的条目
+                        notifyWidgetUpdate(); // 通知更新widget
                     }else{
                         Snackbar.make(mCoord,"添加Remind事件失败",Snackbar.LENGTH_SHORT).show();
                     }
@@ -104,12 +103,16 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         builder.create().show();
     }
 
+    /**
+     * 初始化recycleView
+     */
     private void setupRecycleView(){
         dataList = remindDao.loadAll(); // getData
         recyclerView = mainView.getRecyclerView();
         recyclerView.setEmptyView(emptyView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager);
+
 //        recyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.VERTICAL));
         adapter = new RemindListAdapter(recyclerView.getContext(), dataList);
         recyclerView.setAdapter(adapter);
@@ -122,6 +125,9 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         recyclerView.setItemAnimator(defaultItemAnimator);
     }
 
+    /**
+     * 更新主界面的recycleView
+     */
     private void displayAndLoadWithAnimation(){
         if (dataList.isEmpty()){
             dataList =  remindDao.loadAll(); // getData
@@ -140,6 +146,12 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         adapter.notifyDataSetChanged();
 //        recyclerView.scheduleLayoutAnimation();
 //        Toast.makeText(activity,"正在载入...",Toast.LENGTH_SHORT).show();
+    }
+
+    public void notifyWidgetUpdate(){
+        Intent intent = new Intent(activity, HomeScreenWidget.class);
+        intent.setAction("refresh");
+        activity.sendBroadcast(intent);
     }
 
 }

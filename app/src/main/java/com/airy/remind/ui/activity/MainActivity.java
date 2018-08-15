@@ -31,23 +31,8 @@ public class MainActivity extends BaseActivity<IMainView,MainActivityPresenter> 
 
     @OnClick(R.id.add_remind_float_button)
     public void OnClick(){
-        presenter.snackBarAction(mCoord);
+        presenter.floatButtonAction(mCoord);
     }
-
-
-//    final Handler.Callback callback = new Handler.Callback() {
-//        @Override
-//        public boolean handleMessage(Message message) {
-//            return false;
-//        }
-//    };
-//
-//    Handler handler = new Handler(callback){
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//        }
-//    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
