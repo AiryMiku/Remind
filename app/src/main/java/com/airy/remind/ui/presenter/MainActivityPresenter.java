@@ -27,6 +27,10 @@ import com.airy.remind.widget.HomeScreenWidget;
 import java.util.Collections;
 import java.util.List;
 
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+
 /**
  * Created by Airy on 2018/7/16
  * Mail: a532710813@gmail.com
@@ -117,9 +121,16 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         recyclerView.setLayoutManager(layoutManager);
 
 //        recyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.VERTICAL));
+        recyclerView.setItemAnimator(new FadeInAnimator());
         adapter = new RemindListAdapter(recyclerView.getContext(), dataList);
-        recyclerView.setAdapter(adapter);
-
+        ScaleInAnimationAdapter scale = new ScaleInAnimationAdapter(adapter);
+        scale.setDuration(500);
+        scale.setFirstOnly(false);
+        AlphaInAnimationAdapter alpha = new AlphaInAnimationAdapter(scale);
+        alpha.setDuration(500);
+        alpha.setFirstOnly(false);
+//        alpha.setInterpolator(new OvershootInterpolator());
+        recyclerView.setAdapter(alpha);
 
 
         // 动画效果
@@ -143,13 +154,16 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
             Collections.reverse(dataList);
         }
         recyclerView = mainView.getRecyclerView();
+
+        // 进入呈现的动画
         final Context recyclerViewContext = recyclerView.getContext();
         final LayoutAnimationController controller =
                 AnimationUtils.loadLayoutAnimation(recyclerViewContext,R.anim.layout_animation_fall_down);
         recyclerView.setLayoutAnimation(controller);
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         recyclerView.scheduleLayoutAnimation();
-//        Toast.makeText(activity,"正在载入...",Toast.LENGTH_SHORT).show();
+
+
     }
 
     public void notifyWidgetUpdate(){

@@ -38,4 +38,5 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'org.greenrobot:greendao-generator:3.2.2'
+    implementation 'jp.wasabeef:recyclerview-animators:2.3.0'
 }
