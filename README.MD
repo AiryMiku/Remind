@@ -10,10 +10,11 @@
 ## 已知问题
  * 同为Android Oreo，真机无动画效果
  * ~~widget刷新不起作用~~解决了
- * LayoutAnimationController毫无效果
+ * ~~LayoutAnimationController毫无效果~~
 ## ToDo
  * 编写后端？网络缓存
  * 完善已知问题
 ## update
  * 2018.8.5 16:36  重写RecycleView，添加EmptyView，改变删除交互
  * 2018.8.6 8:16   解决了widget不能刷新的bug
+ * 2018.8.16 15:16 LayoutAnimation有效果了

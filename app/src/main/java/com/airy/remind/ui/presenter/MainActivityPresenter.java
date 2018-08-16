@@ -1,6 +1,7 @@
 package com.airy.remind.ui.presenter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
 import com.airy.remind.MyApp;
@@ -116,9 +119,10 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
 //        recyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.VERTICAL));
         adapter = new RemindListAdapter(recyclerView.getContext(), dataList);
         recyclerView.setAdapter(adapter);
-        /**
-         * 既然是动画，就会有时间，我们把动画执行时间变大一点来看一看效果
-         */
+
+
+
+        // 动画效果
         DefaultItemAnimator defaultItemAnimator = new DefaultItemAnimator();
         defaultItemAnimator.setAddDuration(500);
         defaultItemAnimator.setRemoveDuration(100);
@@ -139,12 +143,12 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
             Collections.reverse(dataList);
         }
         recyclerView = mainView.getRecyclerView();
-//        final Context recyclerViewContext = recyclerView.getContext();
-//        final LayoutAnimationController controller =
-//                AnimationUtils.loadLayoutAnimation(recyclerViewContext,R.anim.layout_animation_fall_down);
-//        recyclerView.setLayoutAnimation(controller);
+        final Context recyclerViewContext = recyclerView.getContext();
+        final LayoutAnimationController controller =
+                AnimationUtils.loadLayoutAnimation(recyclerViewContext,R.anim.layout_animation_fall_down);
+        recyclerView.setLayoutAnimation(controller);
         adapter.notifyDataSetChanged();
-//        recyclerView.scheduleLayoutAnimation();
+        recyclerView.scheduleLayoutAnimation();
 //        Toast.makeText(activity,"正在载入...",Toast.LENGTH_SHORT).show();
     }
 

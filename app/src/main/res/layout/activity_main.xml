@@ -16,7 +16,6 @@
         android:id="@+id/remind_task_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
         android:clipToPadding="false"/>
 
     <android.support.design.widget.FloatingActionButton
