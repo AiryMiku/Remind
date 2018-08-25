@@ -36,12 +36,13 @@ public class WidgetService extends RemoteViewsService {
 
     @Override
     public void onCreate() {
-        super.onCreate();
         Log.d(TAG,"onCreate");
+        super.onCreate();
     }
 
     @Override
     public void onDestroy() {
+        Log.d(TAG,"onDestory");
         super.onDestroy();
     }
 

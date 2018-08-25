@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="输入Remind name..."
+        android:hint="@string/remind_name_edtx"
         android:inputType="text"
         app:layout_constraintRight_toRightOf="parent" />
 
