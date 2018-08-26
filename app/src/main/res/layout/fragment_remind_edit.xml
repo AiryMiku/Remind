@@ -1,18 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <EditText
-        android:id="@+id/remind_edtx"
-        android:layout_width="match_parent"
+        android:id="@+id/remind_name_edtx"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:background="@null"
         android:hint="@string/remind_name_edtx"
         android:inputType="text"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/remind_content_edtx"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:hint="@string/remind_content"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/remind_name_edtx" />
+
+    <TextView
+        android:id="@+id/remind_date_tv_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:text="日期"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/remind_content_edtx" />
+
+    <TextView
+        android:id="@+id/remind_date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:text="2015年12月30日"
+        app:layout_constraintStart_toEndOf="@id/remind_date_tv_lb"
+        app:layout_constraintTop_toBottomOf="@id/remind_content_edtx" />
+
+
+    <TextView
+        android:id="@+id/remind_time_tv_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:text="时间"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/remind_date_tv_lb" />
+
+    <TextView
+        android:id="@+id/remind_time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:text="11时11分"
+        app:layout_constraintStart_toEndOf="@id/remind_time_tv_lb"
+        app:layout_constraintTop_toBottomOf="@id/remind_date_tv" />
 
 
 </android.support.constraint.ConstraintLayout>

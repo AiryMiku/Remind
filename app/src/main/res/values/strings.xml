@@ -4,4 +4,5 @@
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="remind_name_edtx">输入Remind name...</string>
+    <string name="remind_content">输入Remind content...</string>
 </resources>
