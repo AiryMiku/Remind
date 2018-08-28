@@ -35,21 +35,33 @@ import butterknife.ButterKnife;
 public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.ViewHolder> {
 
     private static final String TAG = RemindListAdapter.class.getSimpleName();
+    public static final int HEAD = 1;
+    public static final int NORMAL = 2;
+    public static final int FOOT = 3;
+
     private Context mContext;
     private List<Remind> mList;
     private OnItemClickListener mListener;
     private int lastAnimatedPosition=-1;
     private boolean animationsLocked = false;
     private boolean delayEnterAnimation = true;
+    private View footView;
 
     public RemindListAdapter(Context context, List<Remind> list) {
         this.mContext = context;
         this.mList = list;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (position + getFootViewCount() > mList.size() ) return FOOT;
+        return NORMAL;
+    }
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == FOOT) return new ViewHolder(footView);
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.remind_task_item, parent, false);
         return new ViewHolder(view);
@@ -58,6 +70,9 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 //        runEnterAnimation(holder.itemView,position);
+        // footview not to bind
+        if (getItemViewType(position) == FOOT) return;
+
         final Remind item = mList.get(position);
         holder.cb_task_isFinshed.setChecked(item.getIsFinished());
         holder.tv_task_name.setText(item.getName());
@@ -106,7 +121,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mList.size() + getFootViewCount();
     }
 
 
@@ -120,13 +135,25 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
         notifyItemRemoved(position);
     }
 
+    /**
+     * 插入数据
+     * @param position
+     * @param remind
+     */
     public void InsertData(int position,Remind remind){
         mList.add(position,remind);
         notifyItemInserted(position);
     }
 
-    private void runEnterAnimation(View view, int position) {
+    public void addFootView(View footView){
+        this.footView = footView;
+    }
 
+    public int getFootViewCount() {
+        return footView == null ? 0 : 1;
+    }
+
+    private void runEnterAnimation(View view, int position) {
         if (animationsLocked) return;
         //animationsLocked是布尔类型变量，一开始为false
         //确保仅屏幕一开始能够容纳显示的item项才开启动画
@@ -162,7 +189,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
         void onItemClick();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.remind_task_check_box)
         CheckBox cb_task_isFinshed;
@@ -171,6 +198,7 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
 
         public ViewHolder(View itemView) {
             super(itemView);
+            if (itemView == footView) return;
             ButterKnife.bind(this, itemView);
         }
     }

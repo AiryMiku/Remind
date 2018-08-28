@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.airy.remind.MyApp;
 import com.airy.remind.R;
@@ -45,7 +46,6 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
     private RemindListAdapter adapter;
     private List<Remind> dataList;
     private IMainView mainView;
-    private View emptyView;
 
     public MainActivityPresenter(Activity activity){
         this.activity = activity;
@@ -62,7 +62,6 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
 
     public void init(){
         mainView = getMainView();
-        emptyView = mainView.getEmptyView();
         if(mainView != null){
             setupRecycleView();
             displayAndLoadWithAnimation();
@@ -115,6 +114,7 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
      */
     private void setupRecycleView(){
         dataList = remindDao.loadAll(); // getData
+        View emptyView = mainView.getEmptyView();
         recyclerView = mainView.getRecyclerView();
         recyclerView.setEmptyView(emptyView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
@@ -123,6 +123,9 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
 //        recyclerView.addItemDecoration(new DividerItemDecoration(activity,DividerItemDecoration.VERTICAL));
         recyclerView.setItemAnimator(new FadeInAnimator());
         adapter = new RemindListAdapter(recyclerView.getContext(), dataList);
+        TextView t = new TextView(activity);
+        t.setText("—————————————我是有底线的—————————————");
+        adapter.addFootView(t);
         ScaleInAnimationAdapter scale = new ScaleInAnimationAdapter(adapter);
         scale.setDuration(500);
         scale.setFirstOnly(false);
