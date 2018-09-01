@@ -145,6 +145,15 @@ public class RemindListAdapter extends RecyclerView.Adapter<RemindListAdapter.Vi
         notifyItemInserted(position);
     }
 
+    /**
+     * 这个逻辑暂时不正确
+     * @param position
+     * @return
+     */
+    public Remind getAdapterItemData(int position){
+        return mList.get(position);
+    }
+
     public void addFootView(View footView){
         this.footView = footView;
     }

@@ -58,8 +58,7 @@ public class MainActivity extends BaseActivity<IMainView,MainActivityPresenter> 
 
         switch(item.getItemId()){
             case Menu.FIRST:
-                final DialogFragment dialogFragment = new RemindDialogFragment();
-                dialogFragment.show(getFragmentManager(),getLocalClassName());
+                presenter.displayRemindDialogFragment(0);
                 return true;
             default:
                 return false;

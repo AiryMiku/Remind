@@ -1,9 +1,11 @@
 package com.airy.remind.ui.presenter;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -22,10 +24,12 @@ import com.airy.remind.bean.Remind;
 import com.airy.remind.bean.RemindDao;
 import com.airy.remind.myview.EmptyRecycleView;
 import com.airy.remind.ui.adapter.RemindListAdapter;
+import com.airy.remind.ui.fragment.RemindDialogFragment;
 import com.airy.remind.ui.view.IMainView;
 import com.airy.remind.widget.HomeScreenWidget;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
@@ -38,7 +42,7 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
  * Github: AiryMiku
  */
 
-public class MainActivityPresenter extends BasePresenter<IMainView> {
+public class MainActivityPresenter extends BasePresenter<IMainView> implements RemindDialogFragment.onRemindDialogFragmentComplete{
 
     private Activity activity;
     private RemindDao remindDao;
@@ -175,4 +179,20 @@ public class MainActivityPresenter extends BasePresenter<IMainView> {
         activity.sendBroadcast(intent);
     }
 
+    @Override
+    public void getRemindData(int listPostion, String name, String content, Date date) {
+
+    }
+
+    public void displayRemindDialogFragment(int position){
+        Remind data = adapter.getAdapterItemData(position);
+        Bundle bundle = new Bundle();
+        bundle.putInt("position",position);
+        bundle.putString("name",data.getName());
+        bundle.putString("content",data.getContent());
+//        bundle.putString("date",data.getDatetime());
+        DialogFragment fragment = new RemindDialogFragment();
+        fragment.setArguments(bundle);
+        fragment.show(activity.getFragmentManager(),activity.getLocalClassName());
+    }
 }
